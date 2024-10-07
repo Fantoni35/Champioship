@@ -1,6 +1,14 @@
 ﻿@model LoginViewModel
 @{
     var currentCulture = ViewData["Culture"]?.ToString() ?? "en";
+    var languages = new List<(string Code, string Name)>
+    {
+        ("en", "English"),
+        ("it", "Italiano"),
+        ("it_ch", "ItalianoCH"),
+        ("en_us", "EnglishUS"),
+        ("en_aus", "EnglishAUS")
+    };
 }
 
 <!DOCTYPE html>
@@ -46,15 +54,18 @@
             <div class="container-fluid">
                 <h2 style="color:white">ChampionshipWebApp</h2>
                 <div class="ml-auto">
-                    <div class="form-group">
+                    <div style="display: inline-block; width: auto;">
                         <label for="languageSelect" class="mr-2" style="color:white">
                             @(currentCulture == "it" ? "Seleziona Lingua" : "Select Language")
                         </label>
-                        <div style="display: inline-block; width: auto;">
-                            <input type="radio" id="languageEnglish" name="language" value="en" @(currentCulture == "en" ? "checked" : "") onclick="changeLanguage('en')">
-                            <label for="languageEnglish" style="color:white">English</label>
-                            <input type="radio" id="languageItalian" name="language" value="it" @(currentCulture == "it" ? "checked" : "") onclick="changeLanguage('it')">
-                            <label for="languageItalian" style="color:white">Italiano</label>
+                        <div class="language-btn-group">
+                            @foreach (var lang in languages)
+                            {
+                                <button class="language-btn @(currentCulture == lang.Code ? "selected" : "")"
+                                        onclick="changeLanguage('@lang.Code')">
+                                    @lang.Name
+                                </button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -127,15 +138,6 @@
                 <div class="modal-body">
                     <form id="registrationForm" method="post" asp-action="Register">
                         <div class="form-group">
-                            <label for="languageSelect">
-                                @(currentCulture == "it" ? "Seleziona Lingua" : "Select Language")
-                            </label>
-                            <div>
-                                <input type="radio" id="languageEnglish" name="Language" value="en" @(currentCulture == "en" ? "checked" : "") required>
-                                <label for="languageEnglish">English</label>
-                                <input type="radio" id="languageItalian" name="Language" value="it" @(currentCulture == "it" ? "checked" : "") required>
-                                <label for="languageItalian">Italiano</label>
-                            </div>
                             <label for="newUsername">
                                 @(currentCulture == "it" ? "Nome Utente" : "Username")
                             </label>
@@ -150,6 +152,38 @@
                                    placeholder="@(currentCulture == "it" ? "Inserisci la tua password" : "Insert your password")">
                             <div class="invalid-feedback">
                                 @(currentCulture == "it" ? "La password non può contenere spazi." : "Password cannot contain spaces.")
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label id="languageLabel" for="languageSelect">
+                                @(currentCulture == "it" ? "Seleziona Lingua" : "Select Language")
+                            </label>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" aria-haspopup="true" aria-expanded="false" onclick="toggleDropdown()">
+                                    @(currentCulture == "en" ? "English" : "Italiano")
+                                </button>
+                                <div class="dropdown-menu" id="languageOptions" aria-labelledby="languageDropdown" style="display: none;">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="languageEnglish" name="Language" value="en" @(currentCulture == "en" ? "checked" : "") required onchange="updateLanguageLabel(this.value)">
+                                        <label class="form-check-label" for="languageEnglish">English</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="languageItalian" name="Language" value="it" @(currentCulture == "it" ? "checked" : "") required onchange="updateLanguageLabel(this.value)">
+                                        <label class="form-check-label" for="languageItalian">Italiano</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="languageItalian" name="Language" value="it" @(currentCulture == "it" ? "checked" : "") required onchange="updateLanguageLabel(this.value)">
+                                        <label class="form-check-label" for="languageItalianCH">ItalianoCH</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="languageEnglishUS" name="Language" value="en_us" @(currentCulture == "en_us" ? "checked" : "") required onchange="updateLanguageLabel(this.value)">
+                                        <label class="form-check-label" for="languageEnglishUS">EnglishUS</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="languageEnglishAUS" name="Language" value="en_aus" @(currentCulture == "en_aus" ? "checked" : "") required onchange="updateLanguageLabel(this.value)">
+                                        <label class="form-check-label" for="languageEnglishAUS">EnglishAUS</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -177,10 +211,40 @@
 
     <script>
         function changeLanguage(lang) {
+            if (lang === 'it_ch') {
+                lang = 'it';  // Considera 'ItalianoCH' come italiano standard
+            }
             const urlParams = new URLSearchParams(window.location.search);
             urlParams.set('culture', lang);
             window.location.search = urlParams.toString();
         }
+
+        function toggleDropdown() {
+            const dropdownOptions = document.getElementById("languageOptions");
+            dropdownOptions.style.display = dropdownOptions.style.display === "block" ? "none" : "block";
+        }
+
+        function toggleDropdown() {
+            const dropdownOptions = document.getElementById("languageOptions");
+            dropdownOptions.style.display = dropdownOptions.style.display === "block" ? "none" : "block";
+        }
+
+        function updateLanguageLabel(lang) {
+            const languageLabel = document.getElementById("languageLabel");
+            const dropdownButton = document.getElementById("languageDropdown");
+
+            // Aggiorna il testo dell'etichetta in base alla lingua selezionata
+            languageLabel.textContent = (lang === "it") ? "Seleziona Lingua" : "Select Language";
+
+            // Cambia il testo del pulsante del dropdown
+            dropdownButton.textContent = (lang === "en") ? "English" : "Italiano";
+
+            // Chiudi il dropdown dopo la selezione
+            document.getElementById("languageOptions").style.display = "none";
+        }
+
+
+
         $(document).ready(function () {
             var showRegisterModal = '@(ViewBag.ShowRegisterModal != null && (bool)ViewBag.ShowRegisterModal)';
             if (showRegisterModal === 'True') {
@@ -210,11 +274,9 @@
         $(document).ready(function () {
             setTimeout(function () {
                 $('#successMessage').fadeOut('slow');
-            }, 3000); 
+            }, 3000);
         });
     </script>
 
 </body>
 </html>
-
-

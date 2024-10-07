@@ -13,6 +13,7 @@ public class FootballLeagueContext : DbContext
     public DbSet<Match> Matches { get; set; }
     public DbSet<MatchResult> MatchResults { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Language> Languages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -53,5 +54,17 @@ public class FootballLeagueContext : DbContext
         });
     }
 
-
+    public static void SeedLanguages(FootballLeagueContext context)
+    {
+        if (!context.Languages.Any())
+        {
+            context.Languages.AddRange(new List<Language>
+        {
+            new Language { Code = "en", Name = "English" },
+            new Language { Code = "it", Name = "Italiano" },
+            // Aggiungi altre lingue se necessario
+        });
+            context.SaveChanges();
+        }
+    }
 }

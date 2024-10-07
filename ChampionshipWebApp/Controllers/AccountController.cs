@@ -3,6 +3,7 @@ using ChampionshipWebApp.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Security.Claims;
@@ -16,7 +17,7 @@ public class AccountController : Controller
         _context = context;
     }
 
-    public IActionResult Login(string registrationSuccessMessage = null)
+    public async Task<IActionResult> Login(string registrationSuccessMessage = null)
     {
         if (TempData["RegistrationSuccessMessage"] != null)
         {
@@ -27,13 +28,18 @@ public class AccountController : Controller
             ViewBag.RegistrationSuccessMessage = registrationSuccessMessage;
         }
 
-        ViewData["Culture"] = HttpContext.Request.Query["culture"].ToString() ?? "en";
+        var languages = await _context.Languages.ToListAsync();  // Recupera le lingue dal DB
+        ViewBag.Languages = new SelectList(languages, "Code", "Name");
+
+        var currentCulture = HttpContext.Request.Query["culture"].ToString() ?? "en";
+        ViewData["Culture"] = currentCulture;
 
         return View();
     }
 
+
     [HttpPost]
-    public async Task<IActionResult> ChangeLanguage(string language, string newPassword = null)
+    public async Task<IActionResult> ChangeLanguage(string language)
     {
         if (language == "en" || language == "it")
         {
@@ -51,24 +57,17 @@ public class AccountController : Controller
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
 
             var username = User.Identity.Name;
-
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
             if (user != null)
             {
                 user.Language = language;
-
-                // Se è stata fornita una nuova password, aggiornala
-                if (!string.IsNullOrEmpty(newPassword))
-                {
-                    user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
-                }
-
                 await _context.SaveChangesAsync();
             }
         }
 
-        return Ok();
+        return RedirectToAction("Index", "Home");
     }
+
 
 
 
@@ -82,7 +81,7 @@ public class AccountController : Controller
         {
             var userPreferredCulture = user.Language ?? "en";
 
-            var cultureInfo = new CultureInfo(userPreferredCulture);
+            var cultureInfo = new CultureInfo(user.Language ?? "en");
             CultureInfo.CurrentCulture = cultureInfo;
             CultureInfo.CurrentUICulture = cultureInfo;
 
