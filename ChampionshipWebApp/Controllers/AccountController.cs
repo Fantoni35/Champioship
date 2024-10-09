@@ -17,6 +17,21 @@ public class AccountController : Controller
         _context = context;
     }
 
+    //  restituisce le lingue come JSON
+    [HttpGet]
+    public JsonResult GetLanguagesJson()
+    {
+        var languages = new List<Language>
+        {
+            new Language { Code = "en", Name = "English" },
+            new Language { Code = "it", Name = "Italiano" },
+            new Language { Code = "it", Name = "ItalianoCH" },
+            new Language { Code = "en", Name = "EnglishUS" },
+            new Language { Code = "en", Name = "EnglishAUS" },
+        };
+        return Json(languages);
+    }
+
     public async Task<IActionResult> Login(string registrationSuccessMessage = null)
     {
         if (TempData["RegistrationSuccessMessage"] != null)
@@ -28,14 +43,12 @@ public class AccountController : Controller
             ViewBag.RegistrationSuccessMessage = registrationSuccessMessage;
         }
 
-        var languages = await _context.Languages.ToListAsync();  // Recupera le lingue dal DB
-        ViewBag.Languages = new SelectList(languages, "Code", "Name");
-
         var currentCulture = HttpContext.Request.Query["culture"].ToString() ?? "en";
         ViewData["Culture"] = currentCulture;
 
         return View();
     }
+
 
 
     [HttpPost]

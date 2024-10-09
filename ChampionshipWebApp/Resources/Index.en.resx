@@ -219,11 +219,20 @@
   <data name="InsertEditResult" xml:space="preserve">
     <value>Insert Edit Result</value>
   </data>
+  <data name="InvalidCredentialsMessage" xml:space="preserve">
+    <value>Invalid Credentials Message</value>
+  </data>
   <data name="Italian" xml:space="preserve">
     <value>Italian</value>
   </data>
   <data name="ListOfTeams" xml:space="preserve">
     <value>List of Teams</value>
+  </data>
+  <data name="LoginButton" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>Login</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
@@ -240,11 +249,17 @@
   <data name="NotPlayed" xml:space="preserve">
     <value>Not Played</value>
   </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
   <data name="Points" xml:space="preserve">
     <value>Points</value>
   </data>
   <data name="Rakings" xml:space="preserve">
     <value>Rakings</value>
+  </data>
+  <data name="RegisterButton" xml:space="preserve">
+    <value>Register</value>
   </data>
   <data name="RelegationZone" xml:space="preserve">
     <value>RelegationZone</value>
@@ -269,6 +284,9 @@
   </data>
   <data name="TeamExist" xml:space="preserve">
     <value>Team Exist</value>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>Username</value>
   </data>
   <data name="ViewRankings" xml:space="preserve">
     <value>View Rankings</value>

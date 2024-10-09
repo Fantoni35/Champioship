@@ -222,11 +222,20 @@
   <data name="InsertEditResult" xml:space="preserve">
     <value>Inserisci o modifica risultato</value>
   </data>
+  <data name="InvalidCredentialsMessage" xml:space="preserve">
+    <value>Credenziali errate</value>
+  </data>
   <data name="Italian" xml:space="preserve">
     <value>Italiano</value>
   </data>
   <data name="ListOfTeams" xml:space="preserve">
     <value>Elenco delle squadre</value>
+  </data>
+  <data name="LoginButton" xml:space="preserve">
+    <value>Accedi</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>Accesso</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Esci</value>
@@ -243,11 +252,17 @@
   <data name="NotPlayed" xml:space="preserve">
     <value>Non Giocata</value>
   </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
   <data name="Points" xml:space="preserve">
     <value>Punti</value>
   </data>
   <data name="Rakings" xml:space="preserve">
     <value>Classifica</value>
+  </data>
+  <data name="RegisterButton" xml:space="preserve">
+    <value>Registrati</value>
   </data>
   <data name="RelegationZone" xml:space="preserve">
     <value>Zona Retrocessione</value>
@@ -272,6 +287,9 @@
   </data>
   <data name="TeamExist" xml:space="preserve">
     <value>La squadra inserita esiste già</value>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>Nome Utente</value>
   </data>
   <data name="ViewRankings" xml:space="preserve">
     <value>Classifica</value>

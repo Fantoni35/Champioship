@@ -70,6 +70,15 @@ public static class Resources
     public static string TeamExist => GetString("TeamExist");
     public static string BackAddTeam => GetString("BackAddTeam");
 
+    public static string LoginTitle => GetString("LoginTitle");
+    public static string UsernameLabel => GetString("UsernameLabel");
+    public static string PasswordLabel => GetString("PasswordLabel");
+    public static string LoginButton => GetString("LoginButton");
+    public static string RegisterButton => GetString("RegisterButton");
+    public static string InvalidCredentialsMessage => GetString("InvalidCredentialsMessage");
+
+
+
 
 
     private static string GetString(string name)
