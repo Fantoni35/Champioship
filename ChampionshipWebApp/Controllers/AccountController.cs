@@ -18,22 +18,25 @@ public class AccountController : Controller
     }
 
     //  restituisce le lingue come JSON
-    [HttpGet]
-    public JsonResult GetLanguagesJson()
+
+   
+    public List<Language> GetLanguages()
     {
-        var languages = new List<Language>
-        {
-            new Language { Code = "en", Name = "English" },
-            new Language { Code = "it", Name = "Italiano" },
-            new Language { Code = "it", Name = "ItalianoCH" },
-            new Language { Code = "en", Name = "EnglishUS" },
-            new Language { Code = "en", Name = "EnglishAUS" },
-        };
-        return Json(languages);
+        return new List<Language>
+    {
+        new Language { Code = "en", Name = "English" },
+        new Language { Code = "it", Name = "Italiano" },
+        new Language { Code = "it", Name = "ItalianoCH" },
+        new Language { Code = "en", Name = "EnglishUS" },
+        new Language { Code = "en", Name = "EnglishAUS" },
+    };
     }
 
+
+    [HttpGet]
     public async Task<IActionResult> Login(string registrationSuccessMessage = null)
     {
+        // Check if there is a registration success message in TempData
         if (TempData["RegistrationSuccessMessage"] != null)
         {
             ViewBag.RegistrationSuccessMessage = TempData["RegistrationSuccessMessage"];
@@ -43,8 +46,12 @@ public class AccountController : Controller
             ViewBag.RegistrationSuccessMessage = registrationSuccessMessage;
         }
 
+        // Retrieve the culture from the query string or default to English
         var currentCulture = HttpContext.Request.Query["culture"].ToString() ?? "en";
         ViewData["Culture"] = currentCulture;
+
+        // Pass the list of languages to the view
+        ViewData["Languages"] = GetLanguages();
 
         return View();
     }
@@ -85,37 +92,40 @@ public class AccountController : Controller
 
 
     [HttpPost]
-    public async Task<IActionResult> Login(string username, string password)
+    public async Task<IActionResult> Login(string username, string password, string culture = "en")
     {
         var user = await _context.Users
                                  .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
 
         if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
         {
-            var userPreferredCulture = user.Language ?? "en";
+            var userPreferredCulture = user.Language ?? culture;
 
-            var cultureInfo = new CultureInfo(user.Language ?? "en");
+            var cultureInfo = new CultureInfo(userPreferredCulture);
             CultureInfo.CurrentCulture = cultureInfo;
             CultureInfo.CurrentUICulture = cultureInfo;
 
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim("Language", userPreferredCulture)
-            };
+        {
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim("Language", userPreferredCulture)
+        };
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-            return RedirectToAction("Index", "Home");
+            // Redirect to the Index action in Home controller with the selected culture
+            return RedirectToAction("Index", "Home", new { culture = userPreferredCulture });
         }
 
-        var defaultCulture = user?.Language ?? "en";
+        var defaultCulture = user?.Language ?? culture; // Use the culture passed or default
         ModelState.AddModelError(string.Empty,
             defaultCulture == "it" ? "Tentativo di login non valido." : "Invalid login attempt.");
 
-        ViewData["Username"] = username;
         ViewData["Culture"] = defaultCulture;
+
+        // Pass the list of languages to the view again in case of error
+        ViewBag.Languages = GetLanguages();
 
         return View();
     }
