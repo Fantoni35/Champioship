@@ -33,6 +33,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.DefaultRequestCulture = new RequestCulture("en");
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
+
+    // Aggiungi il provider del cookie per leggere la cultura
+    options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
 });
 
 // Add controllers with views
@@ -57,16 +60,25 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Middleware to set culture based on user claims
+// Middleware to set culture based on user claims or cookies
 app.Use(async (context, next) =>
 {
     if (context.User.Identity.IsAuthenticated)
     {
-        var preferredLanguage = context.User.FindFirst("Culture")?.Value ?? "en"; // Change "Language" to "Culture"
-
+        // Se l'utente è autenticato, prendi la cultura dal claim
+        var preferredLanguage = context.User.FindFirst("Culture")?.Value ?? "en";
         var cultureInfo = new CultureInfo(preferredLanguage);
         CultureInfo.CurrentCulture = cultureInfo;
         CultureInfo.CurrentUICulture = cultureInfo;
+    }
+    else
+    {
+        // Se l'utente non è autenticato, prendi la cultura dal cookie
+        var requestCultureFeature = context.Features.Get<IRequestCultureFeature>();
+        var requestCulture = requestCultureFeature?.RequestCulture.Culture ?? new CultureInfo("en");
+
+        CultureInfo.CurrentCulture = requestCulture;
+        CultureInfo.CurrentUICulture = requestCulture;
     }
 
     await next.Invoke();
@@ -79,5 +91,4 @@ app.MapControllerRoute(
 
 // Run the application
 app.Run();
-
 

@@ -2,6 +2,7 @@
 using ChampionshipWebApp.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,26 +18,21 @@ public class AccountController : Controller
         _context = context;
     }
 
-    //  restituisce le lingue come JSON
-
-   
     public List<Language> GetLanguages()
     {
         return new List<Language>
-    {
-        new Language { Code = "en", Name = "English" },
-        new Language { Code = "it", Name = "Italiano" },
-        new Language { Code = "it", Name = "ItalianoCH" },
-        new Language { Code = "en", Name = "EnglishUS" },
-        new Language { Code = "en", Name = "EnglishAUS" },
-    };
-    }
+        {
+            new Language { Code = "en", Name = "English" },
+            new Language { Code = "it", Name = "Italiano" },
+            
+        };
 
+
+    }
 
     [HttpGet]
     public async Task<IActionResult> Login(string registrationSuccessMessage = null)
     {
-        // Check if there is a registration success message in TempData
         if (TempData["RegistrationSuccessMessage"] != null)
         {
             ViewBag.RegistrationSuccessMessage = TempData["RegistrationSuccessMessage"];
@@ -46,17 +42,12 @@ public class AccountController : Controller
             ViewBag.RegistrationSuccessMessage = registrationSuccessMessage;
         }
 
-        // Retrieve the culture from the query string or default to English
         var currentCulture = HttpContext.Request.Query["culture"].ToString() ?? "en";
         ViewData["Culture"] = currentCulture;
-
-        // Pass the list of languages to the view
         ViewData["Languages"] = GetLanguages();
 
         return View();
     }
-
-
 
     [HttpPost]
     public async Task<IActionResult> ChangeLanguage(string language)
@@ -88,11 +79,23 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
+    [HttpPost]
+    public IActionResult ChangeLanguageOnLogin(string language)
+    {
+        if (language == "en" || language == "it")
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(language))
+            );
+        }
 
+        return RedirectToAction("Login", new { culture = language });
+    }
 
 
     [HttpPost]
-    public async Task<IActionResult> Login(string username, string password, string culture = "en")
+    public async Task<IActionResult> Login(string username, string password, string culture)
     {
         var user = await _context.Users
                                  .FirstOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
