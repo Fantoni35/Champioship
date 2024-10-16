@@ -83,7 +83,7 @@ public class AccountController : Controller
                 await _context.SaveChangesAsync();
             }
 
-            // Set the cookie to the new language
+            
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(language))
@@ -121,7 +121,7 @@ public class AccountController : Controller
 
             if (user != null && BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
-                var userPreferredCulture = user.Language; // Use user language preference, which could be null
+                var userPreferredCulture = user.Language; 
                 if (!string.IsNullOrEmpty(userPreferredCulture))
                 {
                     var cultureInfo = new CultureInfo(userPreferredCulture);
@@ -142,7 +142,7 @@ public class AccountController : Controller
             }
             else
             {
-                // Show error message based on user preferred language
+                
                 string errorMessage = user?.Language switch
                 {
                     "it" => "Tentativo di login non valido.",
