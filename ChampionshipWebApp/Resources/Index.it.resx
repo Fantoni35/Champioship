@@ -268,7 +268,7 @@
     <value>Non Giocata</value>
   </data>
   <data name="PasswordLabel" xml:space="preserve">
-    <value>password</value>
+    <value>Password</value>
   </data>
   <data name="Points" xml:space="preserve">
     <value>Punti</value>

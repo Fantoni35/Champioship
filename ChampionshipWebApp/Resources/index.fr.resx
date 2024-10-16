@@ -235,7 +235,7 @@
     <value>Tentative de connexion invalide</value>
   </data>
   <data name="Italian" xml:space="preserve">
-    <value>italien</value>
+    <value>Italien</value>
   </data>
   <data name="ListOfTeams" xml:space="preserve">
     <value>Liste des équipes</value>
@@ -244,7 +244,7 @@
     <value>se connecter</value>
   </data>
   <data name="LoginTitle" xml:space="preserve">
-    <value>accéder</value>
+    <value>Accéder</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>Déconnexion</value>
@@ -274,7 +274,7 @@
     <value>Râtelages</value>
   </data>
   <data name="RegisterButton" xml:space="preserve">
-    <value>registre</value>
+    <value>Registre</value>
   </data>
   <data name="RegistrationSuccess" xml:space="preserve">
     <value>Inscription terminée avec succès</value>
@@ -307,7 +307,7 @@
     <value>Nom d'utilisateurInUse</value>
   </data>
   <data name="UsernameLabel" xml:space="preserve">
-    <value>nom d'utilisateur</value>
+    <value>Nom d'utilisateur</value>
   </data>
   <data name="ViewRankings" xml:space="preserve">
     <value>Voir les classements</value>

@@ -154,7 +154,7 @@
     <value>Color Of Club</value>
   </data>
   <data name="ConfirmDelete" xml:space="preserve">
-    <value>ConfirmDelete</value>
+    <value>Confirm Delete</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Date</value>
@@ -211,10 +211,10 @@
     <value>Generate Calendar</value>
   </data>
   <data name="GolAgainst" xml:space="preserve">
-    <value>GolAgainst</value>
+    <value>Gol Against</value>
   </data>
   <data name="GolScored" xml:space="preserve">
-    <value>GolSored</value>
+    <value>Gol Scored</value>
   </data>
   <data name="HomeTeam" xml:space="preserve">
     <value>Home Team</value>
@@ -286,7 +286,7 @@
     <value>Result</value>
   </data>
   <data name="SaveChanges" xml:space="preserve">
-    <value>SaveChanges</value>
+    <value>Save Changes</value>
   </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Select Language</value>
