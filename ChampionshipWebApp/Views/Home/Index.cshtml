@@ -1,4 +1,4 @@
-﻿ @using ChampionshipWebApp.Resources
+﻿@using ChampionshipWebApp.Resources
 
 @model List<Championship.Team>
 @using Microsoft.AspNetCore.Authentication;
@@ -135,7 +135,7 @@
                     <form id="languageForm">
                         <div class="form-group">
                             <label for="languageSelect">@string.Format(Resources.SelectLanguage)</label>
-                            <select class="form-control" id="languageSelect" name="language" >
+                            <select class="form-control" id="languageSelect" name="language">
                                 <option value="" disabled selected>@string.Format(Resources.SelectLanguage)</option>
                                 <option value="en">@string.Format(Resources.English)</option>
                                 <option value="it">@string.Format(Resources.Italian)</option>
@@ -145,7 +145,7 @@
 
                         <div class="form-group">
                             <label for="newPassword">@string.Format(Resources.NewPassword)</label>
-                            <input type="password" maxlength="20" pattern="[^ ]+" title="Non sono ammessi spazi" class="form-control" id="newPassword" name="newPassword" placeholder="@string.Format(Resources.EnterNewPassword)"   />
+                            <input type="password" maxlength="20" pattern="[^ ]+" title="Non sono ammessi spazi" class="form-control" id="newPassword" name="newPassword" placeholder="@string.Format(Resources.EnterNewPassword)" />
                         </div>
 
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@string.Format(Resources.CancelButton)</button>
