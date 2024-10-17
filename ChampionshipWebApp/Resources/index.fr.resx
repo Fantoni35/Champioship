@@ -304,7 +304,7 @@
     <value>ÉquipeExiste</value>
   </data>
   <data name="UsernameInUse" xml:space="preserve">
-    <value>Nom d'utilisateurInUse</value>
+    <value>Nom d’utilisateur déjà utilisé</value>
   </data>
   <data name="UsernameLabel" xml:space="preserve">
     <value>Nom d'utilisateur</value>
@@ -313,7 +313,7 @@
     <value>Voir les classements</value>
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
-    <value>Message de bienvenue</value>
+    <value> Bienvenue, {0}!</value>
   </data>
   <data name="Wins" xml:space="preserve">
     <value>Victoires</value>

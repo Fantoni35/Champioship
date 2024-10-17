@@ -58,7 +58,7 @@
                 <h2 style="color:white">ChampionshipWebApp</h2>
                 <div class="ml-auto">
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown">
                             @Resources.SelectLanguage
                         </button>
                         <div class="dropdown-menu" aria-labelledby="languageDropdown">
@@ -74,8 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
@@ -94,24 +93,16 @@
         <form asp-action="Login" method="post">
             <input type="hidden" name="culture" value="@currentCulture" />
             <div class="form-group">
-                <label asp-for="Username" class="form-label">
-                    @Resources.UsernameLabel
-                </label>
-                <input asp-for="Username" maxlength="30" class="form-control" value="@ViewData["Username"]"
-                       placeholder="@Resources.InsertUsername" />
+                <label asp-for="Username" class="form-label">@Resources.UsernameLabel</label>
+                <input asp-for="Username" maxlength="30" class="form-control" value="@ViewData["Username"]" placeholder="@Resources.InsertUsername" />
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="form-label">
-                    @Resources.PasswordLabel
-                </label>
-                <input asp-for="Password" maxlength="30" type="password" class="form-control"
-                       placeholder="@Resources.InsertPassword" />
+                <label asp-for="Password" class="form-label">@Resources.PasswordLabel</label>
+                <input asp-for="Password" maxlength="30" type="password" class="form-control" placeholder="@Resources.InsertPassword" />
             </div>
 
             <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary btn-block btn-space">
-                    @Resources.LoginButton
-                </button>
+                <button type="submit" class="btn btn-primary btn-block btn-space">@Resources.LoginButton</button>
                 <button type="button" class="btn btn-secondary btn-space" data-toggle="modal" data-target="#registerModal">
                     @Resources.RegisterButton
                 </button>
@@ -120,47 +111,33 @@
 
         @if (!ViewData.ModelState.IsValid)
         {
-            <div class="text-danger">
-                @(Resources.InvalidCredentialsMessage)
-            </div>
+            <div class="text-danger">@Resources.InvalidCredentialsMessage</div>
         }
     </div>
 
-    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">
-                        @Resources.LoginButton
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="registerModalLabel">@Resources.RegisterButton</h5>
+                    <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form id="registrationForm" method="post" asp-action="Register">
                         <div class="form-group">
-                            <label for="newUsername">
-                                @Resources.UsernameLabel
-                            </label>
-                            <input type="text" id="newUsername" maxlength="30" name="Username" class="form-control" required
-                                   placeholder="@Resources.InsertUsername">
+                            <label for="newUsername">@Resources.UsernameLabel</label>
+                            <input type="text" id="newUsername" maxlength="30" name="Username" class="form-control" required placeholder="@Resources.InsertUsername">
                         </div>
                         <div class="form-group">
-                            <label for="newPassword">
-                                @Resources.PasswordLabel
-                            </label>
-                            <input type="password" id="newPassword" maxlength="30" name="Password" class="form-control" required
-                                   placeholder="@Resources.InsertPassword">
-                            <div class="invalid-feedback">
-                                @Resources.NoSpace
-                            </div>
+                            <label for="newPassword">@Resources.PasswordLabel</label>
+                            <input type="password" id="newPassword" maxlength="30" name="Password" class="form-control" required placeholder="@Resources.InsertPassword">
+                            <div class="invalid-feedback">@Resources.NoSpace</div>
                         </div>
 
                         <div class="form-group">
-                            <label for="newLanguage">
-                                @Resources.SelectLanguage
-                            </label>
+                            <label for="newLanguage">@Resources.SelectLanguage</label>
                             <select id="newLanguage" name="Language" class="form-control">
                                 @foreach (var language in languages)
                                 {
@@ -169,9 +146,7 @@
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" id="registerButton">
-                            @Resources.RegisterButton
-                        </button>
+                        <button type="submit" class="btn btn-primary" id="registerButton">@Resources.RegisterButton</button>
                     </form>
 
                     @if (!string.IsNullOrEmpty(ViewBag.RegistrationError))
@@ -181,58 +156,17 @@
 
                     @if (!string.IsNullOrEmpty(ViewBag.UsernameInUseMessage))
                     {
-                        <div class="text-danger mt-2" id="usernameInUseMessage">
-                            @Resources.UsernameInUse
-                        </div>
+                        <div class="text-danger mt-2" id="usernameInUseMessage">@Resources.UsernameInUse</div>
                     }
                 </div>
             </div>
         </div>
     </div>
 
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-DyZvYhK3yZGp8YjYFeyD+O4/+UFl1dWZQb7zBkYZItIdYd2VdNQOHDVfjjKiOfU8" crossorigin="anonymous">
-
     <script>
-        function changeLanguage(lang) {
-
-            const urlParams = new URLSearchParams(window.location.search);
-            urlParams.set('culture', lang);
-            window.location.search = urlParams.toString();
-        }
-
-
-
-
-        function updateLanguageLabel(lang) {
-            const languageLabel = document.getElementById("languageLabel");
-            const dropdownButton = document.getElementById("languageDropdown");
-
-
-            languageLabel.textContent = (lang === "it") ? "Seleziona Lingua" : "Select Language";
-
-
-            dropdownButton.textContent = (lang === "en") ? "English" : "Italiano";
-
-
-            document.getElementById("languageOptions").style.display = "none";
-        }
-
-        setTimeout(function () {
-            var successMessage = document.getElementById("success-message");
-            if (successMessage) {
-                successMessage.style.display = "none";
-            }
-        }, 3000);
-
-
-
         $(document).ready(function () {
-       
-
             // Modale di registrazione se necessario
             var showRegisterModal = '@(ViewBag.ShowRegisterModal != null && (bool)ViewBag.ShowRegisterModal)';
             if (showRegisterModal === 'True') {
@@ -252,23 +186,13 @@
                 var password = $(this).val();
                 if (/\s/.test(password)) {
                     $(this).addClass('is-invalid');
-                    $('.invalid-feedback').text('@(currentCulture == "it" ? "La password non può contenere spazi." : currentCulture == "fr" ? "Le mot de passe ne peut pas contenir d espaces." : "Password cannot contain spaces.")');
-
                     $('#registerButton').prop('disabled', true);
                 } else {
                     $(this).removeClass('is-invalid');
                     $('#registerButton').prop('disabled', false);
                 }
             });
-
-            // Funzione per cambiare la lingua
-            window.changeLanguage = function (lang) {
-                const urlParams = new URLSearchParams(window.location.search);
-                urlParams.set('culture', lang);
-                window.location.search = urlParams.toString();
-            };
         });
     </script>
 </body>
 </html>
-

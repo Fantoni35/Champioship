@@ -232,7 +232,7 @@
     <value>Inserisci Nome Utente</value>
   </data>
   <data name="InvalidCredentialsMessage" xml:space="preserve">
-    <value> credenziali invalide</value>
+    <value> Credenziali non valide</value>
   </data>
   <data name="InvalidLogin" xml:space="preserve">
     <value>Tentantivo di login non valido</value>
@@ -307,10 +307,10 @@
     <value>La squadra inserita esiste già</value>
   </data>
   <data name="UsernameInUse" xml:space="preserve">
-    <value>Nome utente in uso</value>
+    <value>Questo utente esiste già</value>
   </data>
   <data name="UsernameLabel" xml:space="preserve">
-    <value>nome utente </value>
+    <value>Nome utente </value>
   </data>
   <data name="ViewRankings" xml:space="preserve">
     <value>Classifica</value>
