@@ -229,7 +229,7 @@
     <value>Insérer un nom d'utilisateur</value>
   </data>
   <data name="InvalidCredentialsMessage" xml:space="preserve">
-    <value>informations d'identification invalides</value>
+    <value>Informations d'identification invalides</value>
   </data>
   <data name="InvalidLogin" xml:space="preserve">
     <value>Tentative de connexion invalide</value>
@@ -241,7 +241,7 @@
     <value>Liste des équipes</value>
   </data>
   <data name="LoginButton" xml:space="preserve">
-    <value>se connecter</value>
+    <value>Se connecter</value>
   </data>
   <data name="LoginTitle" xml:space="preserve">
     <value>Accéder</value>

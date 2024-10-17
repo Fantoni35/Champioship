@@ -18,6 +18,8 @@ public class AccountController : Controller
         _context = context;
     }
 
+
+
     public List<Language> GetLanguages()
     {
         return new List<Language>
@@ -205,4 +207,27 @@ public class AccountController : Controller
             _ => defaultMessage
         };
     }
+
+    [HttpPost]
+    public async Task<IActionResult> ChangePassword(string newPassword)
+    {
+        if (string.IsNullOrEmpty(newPassword))
+        {
+            ModelState.AddModelError(string.Empty, "La nuova password non può essere vuota.");
+            return RedirectToAction("Login");
+        }
+
+        var username = User.Identity.Name;
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+        if (user != null)
+        {
+            user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            await _context.SaveChangesAsync();
+        }
+
+        TempData["PasswordChangeSuccessMessage"] = "Password modificata con successo!";
+        return RedirectToAction("Login");
+    }
+
 }

@@ -1,4 +1,4 @@
-﻿  @using ChampionshipWebApp.Resources
+﻿ @using ChampionshipWebApp.Resources
 
 @model List<Championship.Team>
 @using Microsoft.AspNetCore.Authentication;
@@ -135,19 +135,17 @@
                     <form id="languageForm">
                         <div class="form-group">
                             <label for="languageSelect">@string.Format(Resources.SelectLanguage)</label>
-                            <select class="form-control" id="languageSelect" name="language" required>
+                            <select class="form-control" id="languageSelect" name="language" >
                                 <option value="" disabled selected>@string.Format(Resources.SelectLanguage)</option>
                                 <option value="en">@string.Format(Resources.English)</option>
                                 <option value="it">@string.Format(Resources.Italian)</option>
-                                <option value="fr">@string.Format(Resources.French)</option> 
-
+                                <option value="fr">@string.Format(Resources.French)</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="newPassword">@string.Format(Resources.NewPassword)</label>
-                            <input type="password" maxlength="20" pattern="[^ ]+" title="Non sono ammessi spazi" class="form-control" id="newPassword" name="newPassword" placeholder="@string.Format(Resources.EnterNewPassword)" />
-
+                            <input type="password" maxlength="20" pattern="[^ ]+" title="Non sono ammessi spazi" class="form-control" id="newPassword" name="newPassword" placeholder="@string.Format(Resources.EnterNewPassword)"   />
                         </div>
 
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">@string.Format(Resources.CancelButton)</button>
@@ -306,6 +304,26 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+        $('#languageForm').on('submit', function (e) {
+            e.preventDefault();
+            var selectedLanguage = $('#languageSelect').val();
+            var newPassword = $('#newPassword').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '/Account/ChangePassword', // Cambia l'endpoint per il cambio password
+                data: { newPassword: newPassword }, // Invia solo la nuova password
+                success: function (response) {
+                    // Ricarica la pagina per i cambiamenti
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                    alert('Errore durante il cambio password.');
+                }
+            });
+        });
+
         $(document).ready(function () {
             $('#languageForm').on('submit', function (e) {
                 e.preventDefault();
@@ -317,7 +335,7 @@
                     url: '/Account/ChangeLanguage', // endpoint da creare nel controller
                     data: { language: selectedLanguage, newPassword: newPassword }, // Includi la nuova password nei dati
                     success: function (response) {
-                        // Ricarica la pagina per riflettere i cambiamenti
+                        // Ricarica la pagina per  i cambiamenti
                         location.reload();
                     },
                     error: function (error) {
