@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Security.Claims;
+using System.Resources;
+using System.Text.Json;
+
 
 public class AccountController : Controller
 {
@@ -38,23 +41,60 @@ public class AccountController : Controller
         );
     }
 
+    private IDictionary<string, ResxForLanguage[]> PopulateResxLanguages()
+    {
+        Dictionary<string, ResxForLanguage[]> resx = new();
+        var languages = GetLanguages();
+        var resManager = new ResourceManager("ChampionshipWebApp.Resources.index", typeof(Resources).Assembly);
+
+        foreach (var lang in languages)
+        {
+            var culture = CultureInfo.GetCultureInfo(lang.Code);
+
+            ResxForLanguage[] resourcesArray = new ResxForLanguage[]
+            {
+            new ResxForLanguage { ElementName = "SelectLanguage", ElementValue = resManager.GetString("SelectLanguage", culture) },
+            new ResxForLanguage { ElementName = "LoginTitle", ElementValue = resManager.GetString("LoginTitle", culture) },
+            new ResxForLanguage { ElementName = "UsernameLabel", ElementValue = resManager.GetString("UsernameLabel", culture) },
+            new ResxForLanguage { ElementName = "InsertUsername", ElementValue = resManager.GetString("InsertUsername", culture) },
+            new ResxForLanguage { ElementName = "InsertPassword", ElementValue = resManager.GetString("InsertPassword", culture) },
+            new ResxForLanguage { ElementName = "PasswordLabel", ElementValue = resManager.GetString("PasswordLabel", culture) },
+            new ResxForLanguage { ElementName = "LoginButton", ElementValue = resManager.GetString("LoginButton", culture) },
+            new ResxForLanguage { ElementName = "RegisterButton", ElementValue = resManager.GetString("RegisterButton", culture) },
+            new ResxForLanguage { ElementName = "InvalidCredentialsMessage", ElementValue = resManager.GetString("InvalidCredentialsMessage", culture) },
+            new ResxForLanguage { ElementName = "UsernameInUse", ElementValue = resManager.GetString("UsernameInUse", culture) }
+            };
+
+
+
+            // Aggiungiamo la lingua e l'array serializzato al dizionario
+            resx.Add(lang.Code, resourcesArray);
+        }
+
+        return resx;
+    }
+
     [HttpGet]
-    public async Task<IActionResult> Login(string registrationSuccessMessage = null)
+    public async Task<IActionResult> Login(string? registrationSuccessMessage = null)
     {
         ViewBag.RegistrationSuccessMessage = TempData["RegistrationSuccessMessage"] ?? registrationSuccessMessage;
 
-        var currentCulture = HttpContext.Request.Query["culture"].ToString();
+        var currentCulture = Request.Cookies["Culture"] ?? "en";
         ViewData["Culture"] = currentCulture;
         ViewData["Languages"] = GetLanguages();
         ViewBag.Languages = GetLanguages();
 
-        if (!string.IsNullOrEmpty(currentCulture))
+        var resxLanguages = PopulateResxLanguages();
+        ViewBag.ResxLanguages = JsonSerializer.Serialize(resxLanguages);
+
+        if (string.IsNullOrEmpty(Request.Cookies["Culture"]))
         {
             SetCultureCookie(currentCulture);
         }
 
         return View();
     }
+
 
     [HttpPost]
     public async Task<IActionResult> ChangeLanguage(string language)
@@ -77,16 +117,6 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    [HttpPost]
-    public IActionResult ChangeLanguageOnLogin(string language)
-    {
-        if (GetLanguages().Any(l => l.Code == language))
-        {
-            SetCultureCookie(language);
-        }
-
-        return RedirectToAction("Login");
-    }
 
     private async Task UpdateUserLanguageInDatabase(string username, string language)
     {
@@ -177,6 +207,7 @@ public class AccountController : Controller
                 ViewBag.ShowRegisterModal = true;
                 ViewData["Languages"] = GetLanguages();
                 return View("Login");
+
             }
 
             var user = new User
@@ -208,14 +239,11 @@ public class AccountController : Controller
         };
     }
 
+
     [HttpPost]
     public async Task<IActionResult> ChangePassword(string newPassword)
     {
-        if (string.IsNullOrEmpty(newPassword))
-        {
-            ModelState.AddModelError(string.Empty, "La nuova password non può essere vuota.");
-            return RedirectToAction("Login");
-        }
+
 
         var username = User.Identity.Name;
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
@@ -224,9 +252,9 @@ public class AccountController : Controller
         {
             user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
             await _context.SaveChangesAsync();
+
         }
 
-        TempData["PasswordChangeSuccessMessage"] = "Password modificata con successo!";
         return RedirectToAction("Login");
     }
 
