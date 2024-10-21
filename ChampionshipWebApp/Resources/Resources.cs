@@ -89,7 +89,16 @@ public static class Resources
     public static string InvalidLogin => GetString("InvalidLogin");
     public static string RegistrationSuccess => GetString("RegistrationSuccess");
 
-    
+    public static string UsernameLabelRegister => GetString("UsernameLabelRegister");
+    public static string PasswordLabelRegister => GetString("PasswordLabelRegister");
+    public static string InsertUsernameRegister => GetString("InsertUsernameRegister");
+    public static string InsertPasswordRegister => GetString("InsertPasswordRegister");
+    public static string SelectLanguageRegister => GetString("SelectLanguageRegister");
+    public static string RegisterButtonModal => GetString("RegisterButtonModal");
+    public static string RegisterTitleModal => GetString("RegisterTitleModal");
+
+
+
 
 
     private static string GetString(string name)

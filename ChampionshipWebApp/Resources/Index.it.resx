@@ -228,8 +228,14 @@
   <data name="InsertPassword" xml:space="preserve">
     <value>Inserisci password</value>
   </data>
+  <data name="InsertPasswordRegister" xml:space="preserve">
+    <value>Inserisci la password</value>
+  </data>
   <data name="InsertUsername" xml:space="preserve">
     <value>Inserisci Nome Utente</value>
+  </data>
+  <data name="InsertUsernameRegister" xml:space="preserve">
+    <value>Inserisci il nome  utente</value>
   </data>
   <data name="InvalidCredentialsMessage" xml:space="preserve">
     <value> Credenziali non valide</value>
@@ -270,6 +276,9 @@
   <data name="PasswordLabel" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="PasswordLabelRegister" xml:space="preserve">
+    <value>Password</value>
+  </data>
   <data name="Points" xml:space="preserve">
     <value>Punti</value>
   </data>
@@ -277,6 +286,12 @@
     <value>Classifica</value>
   </data>
   <data name="RegisterButton" xml:space="preserve">
+    <value>Registrazione</value>
+  </data>
+  <data name="RegisterButtonModal" xml:space="preserve">
+    <value>Registrati</value>
+  </data>
+  <data name="RegisterTitleModal" xml:space="preserve">
     <value>Registrazione</value>
   </data>
   <data name="RegistrationSuccess" xml:space="preserve">
@@ -293,6 +308,9 @@
   </data>
   <data name="SelectLanguage" xml:space="preserve">
     <value>Seleziona Lingua</value>
+  </data>
+  <data name="SelectLanguageRegister" xml:space="preserve">
+    <value>Seleziona la lingua</value>
   </data>
   <data name="SquadName" xml:space="preserve">
     <value>Nome Squadra</value>
@@ -311,6 +329,9 @@
   </data>
   <data name="UsernameLabel" xml:space="preserve">
     <value>Nome utente </value>
+  </data>
+  <data name="UsernameLabelRegister" xml:space="preserve">
+    <value>Nome Utente</value>
   </data>
   <data name="ViewRankings" xml:space="preserve">
     <value>Classifica</value>

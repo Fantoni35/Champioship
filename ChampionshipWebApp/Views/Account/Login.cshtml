@@ -96,7 +96,7 @@
             </div>
             <div class="form-group">
                 <label id="PasswordLabel" asp-for="Password" class="form-label">@Resources.PasswordLabel</label>
-                <input asp-for="Password" id="InsertPassword" maxlength="30" type="password" class="form-control" placeholder="@Resources.InsertPassword" />
+                <input id="InsertPassword" asp-for="Password" maxlength="30" type="password" class="form-control" placeholder="@Resources.InsertPassword" />
             </div>
 
             <div class="d-flex justify-content-between">
@@ -107,9 +107,11 @@
             </div>
         </form>
 
+
+
         @if (!ViewData.ModelState.IsValid)
         {
-            <div class="text-danger">@Resources.InvalidCredentialsMessage</div>
+            <div id="InvalidCredentialsMessage" class="text-danger">@Resources.InvalidCredentialsMessage</div>
         }
     </div>
 
@@ -117,26 +119,27 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">@Resources.RegisterButton</h5>
+                    <h5 id="RegisterTitleModal" class="modal-title" id="registerModalLabel">@Resources.RegisterTitleModal</h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form id="registrationForm" method="post" asp-action="Register">
+
                         <div class="form-group">
-                            <label id="UsernameLabel" for="newUsername">@Resources.UsernameLabel</label>
-                            <input type="text" id="newUsername" maxlength="30" name="Username" class="form-control" required placeholder="@Resources.InsertUsername">
-                        </div>
-                        <div class="form-group">
-                            <label for="newPassword">@Resources.PasswordLabel</label>
-                            <input type="password" id="newPassword" maxlength="30" name="Password" class="form-control" required placeholder="@Resources.InsertPassword">
-                            <div class="invalid-feedback">@Resources.NoSpace</div>
+                            <label id="UsernameLabelRegister" for="newUsername">@Resources.UsernameLabelRegister</label>
+                            <input id="InsertUsernameRegister" type="text" maxlength="30" name="Username" class="form-control" required placeholder="@Resources.InsertUsernameRegister">
                         </div>
 
                         <div class="form-group">
-                            <label for="newLanguage">@Resources.SelectLanguage</label>
-                            <select id="newLanguage" name="Language" class="form-control">
+                            <label id="PasswordLabelRegister" for="newPassword">@Resources.PasswordLabelRegister</label>
+                            <input id="InsertPasswordRegister" type="password" maxlength="30" name="Password" class="form-control" required placeholder="@Resources.InsertPasswordRegister">
+                        </div>
+
+                        <div class="form-group">
+                            <label id="SelectLanguageRegister" for="newLanguage">@Resources.SelectLanguageRegister</label>
+                            <select id="newLanguage" name="Language" class="form-control" required>
                                 @foreach (var language in languages)
                                 {
                                     <option value="@language.Code">@language.Name</option>
@@ -144,17 +147,17 @@
                             </select>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" id="registerButton">@Resources.RegisterButton</button>
+                        <button id="RegisterButtonModal" type="submit" class="btn btn-primary">@Resources.RegisterButtonModal</button>
                     </form>
+
 
                     @if (!string.IsNullOrEmpty(ViewBag.RegistrationError))
                     {
                         <div class="text-danger mt-2" id="registrationMessage">@ViewBag.RegistrationError</div>
                     }
-
                     @if (!string.IsNullOrEmpty(ViewBag.UsernameInUseMessage))
                     {
-                        <div class="text-danger mt-2" id="usernameInUseMessage">@Resources.UsernameInUse</div>
+                        <div class="text-danger mt-2" id="UsernameInUse">@ViewBag.UsernameInUseMessage</div>
                     }
                 </div>
             </div>
@@ -178,14 +181,16 @@
                     localizedResources.forEach(function (resource) {
                         var element = document.getElementById(resource.ElementName);
                         if (element) {
-                            element.innerText = resource.ElementValue;
-                        // }else {
-                        //     element.innerText = resource.ElementValue;
-                        // }
+                            if (element.hasAttribute('placeholder')) {
+                                element.setAttribute('placeholder', resource.ElementValue);
+                            } else {
+                                element.innerText = resource.ElementValue;
+                            }
+                        }
                     });
 
                     // Aggiorna il cookie 'Culture' per mantenere la lingua scelta anche nei prossimi refresh della pagina
-                    document.cookie = `Culture=${language};`;
+                    document.cookie = "Culture=" + language + "; path=/";
                 }
             }
 
@@ -196,9 +201,8 @@
             document.querySelectorAll('.change-language').forEach(function (button) {
                 button.addEventListener('click', function () {
                     var selectedLanguage = this.getAttribute('data-language');
-                    updateLanguage(selectedLanguage);
-
-                    location.reload();
+                    // Ricarica la pagina con la lingua selezionata
+                    window.location.href = '?culture=' + selectedLanguage; // Ricarica la pagina con la nuova lingua
                 });
             });
         });
@@ -206,6 +210,7 @@
 
         $(document).ready(function () {
             var showRegisterModal = '@(ViewBag.ShowRegisterModal != null && (bool)ViewBag.ShowRegisterModal)';
+
             if (showRegisterModal === 'True') {
                 $('#registerModal').modal('show');
             }
@@ -216,6 +221,7 @@
                 $('#usernameInUseMessage').text('');
                 $('#newPassword').removeClass('is-invalid');
                 $('#registerButton').prop('disabled', false);
+                window.location.href = '@Url.Action("login", "Account")';
             });
 
             // Controllo della validità della password durante l'inserimento
@@ -230,6 +236,9 @@
                 }
             });
         });
+
+
     </script>
 </body>
 </html>
+
