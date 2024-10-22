@@ -264,9 +264,6 @@
   <data name="NewPassword" xml:space="preserve">
     <value>Nuova Password</value>
   </data>
-  <data name="NoSpace" xml:space="preserve">
-    <value>no spazio</value>
-  </data>
   <data name="NoTeamsMessage" xml:space="preserve">
     <value>Nessuna squadra è stata aggiunta ancora.</value>
   </data>

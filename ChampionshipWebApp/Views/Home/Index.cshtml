@@ -304,23 +304,20 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        $('#languageForm').on('submit', function (e) {
-            e.preventDefault();
-            var selectedLanguage = $('#languageSelect').val();
-            var newPassword = $('#newPassword').val();
 
-            $.ajax({
-                type: 'POST',
-                url: '/Account/ChangePassword', // Cambia l'endpoint per il cambio password
-                data: { newPassword: newPassword }, // Invia solo la nuova password
-                success: function (response) {
-                    // Ricarica la pagina per i cambiamenti
-                    location.reload();
-                },
-                error: function (error) {
-                    console.error("Error:", error);
-                    alert('Errore durante il cambio password.');
+        $('#changePasswordForm').on('submit', function (event) {
+            event.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.post('/Account/ChangePassword', formData, function (response) {
+                if (response.success) {
+                    alert(response.message);
+                } else {
+                    alert(response.message);
                 }
+            }).fail(function () {
+                alert('Error during password change.');
             });
         });
 

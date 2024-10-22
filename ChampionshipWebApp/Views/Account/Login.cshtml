@@ -72,9 +72,9 @@
 
                     </div>
                 </div>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                @* <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button> *@
             </div>
         </nav>
     </header>
@@ -96,7 +96,7 @@
             </div>
             <div class="form-group">
                 <label id="PasswordLabel" asp-for="Password" class="form-label">@Resources.PasswordLabel</label>
-                <input id="InsertPassword" asp-for="Password" maxlength="30" type="password" class="form-control" placeholder="@Resources.InsertPassword" />
+                <input id="InsertPassword" asp-for="Password" maxlength="30" type="password" class="form-control" required pattern="^(?! )[a-zA-Z0-9]+( [a-zA-Z0-9]+)*(?<! )$" placeholder="@Resources.InsertPassword" />
             </div>
 
             <div class="d-flex justify-content-between">
@@ -106,8 +106,6 @@
                 </button>
             </div>
         </form>
-
-
 
         @if (!ViewData.ModelState.IsValid)
         {
@@ -134,7 +132,7 @@
 
                         <div class="form-group">
                             <label id="PasswordLabelRegister" for="newPassword">@Resources.PasswordLabelRegister</label>
-                            <input id="InsertPasswordRegister" type="password" maxlength="30" name="Password" class="form-control" required placeholder="@Resources.InsertPasswordRegister">
+                            <input id="InsertPasswordRegister" type="password" maxlength="30" name="Password" class="form-control" required pattern="^(?! )[a-zA-Z0-9]+( [a-zA-Z0-9]+)*(?<! )$"  placeholder="@Resources.InsertPasswordRegister">
                         </div>
 
                         <div class="form-group">
@@ -146,10 +144,8 @@
                                 }
                             </select>
                         </div>
-
                         <button id="RegisterButtonModal" type="submit" class="btn btn-primary">@Resources.RegisterButtonModal</button>
                     </form>
-
 
                     @if (!string.IsNullOrEmpty(ViewBag.RegistrationError))
                     {
@@ -168,6 +164,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+
+
+
 
         document.addEventListener("DOMContentLoaded", function () {
             var resxLanguages = JSON.parse('@Html.Raw(ViewBag.ResxLanguages)');
@@ -188,8 +187,6 @@
                             }
                         }
                     });
-
-                    // Aggiorna il cookie 'Culture' per mantenere la lingua scelta anche nei prossimi refresh della pagina
                     document.cookie = "Culture=" + language + "; path=/";
                 }
             }
@@ -202,11 +199,10 @@
                 button.addEventListener('click', function () {
                     var selectedLanguage = this.getAttribute('data-language');
                     // Ricarica la pagina con la lingua selezionata
-                    window.location.href = '?culture=' + selectedLanguage; // Ricarica la pagina con la nuova lingua
+                    window.location.href = '?culture=' + selectedLanguage; 
                 });
             });
         });
-
 
         $(document).ready(function () {
             var showRegisterModal = '@(ViewBag.ShowRegisterModal != null && (bool)ViewBag.ShowRegisterModal)';
@@ -236,8 +232,6 @@
                 }
             });
         });
-
-
     </script>
 </body>
 </html>

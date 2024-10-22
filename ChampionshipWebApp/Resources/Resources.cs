@@ -83,7 +83,7 @@ public static class Resources
 
     public static string UsernameInUse => GetString("UsernameInUse");
 
-    public static string NoSpace => GetString("NoSpace");
+    
 
 
     public static string InvalidLogin => GetString("InvalidLogin");

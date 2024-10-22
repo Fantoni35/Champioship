@@ -261,9 +261,6 @@
   <data name="NewPassword" xml:space="preserve">
     <value>NouveauMot de passe</value>
   </data>
-  <data name="NoSpace" xml:space="preserve">
-    <value>Pas d'espace</value>
-  </data>
   <data name="NoTeamsMessage" xml:space="preserve">
     <value>Aucun message d'équipe</value>
   </data>
@@ -277,7 +274,7 @@
     <value>Password</value>
   </data>
   <data name="Points" xml:space="preserve">
-    <value>Points</value>
+    <value>Dots</value>
   </data>
   <data name="Rakings" xml:space="preserve">
     <value>Râtelages</value>
