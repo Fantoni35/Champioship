@@ -83,9 +83,6 @@ public static class Resources
 
     public static string UsernameInUse => GetString("UsernameInUse");
 
-    
-
-
     public static string InvalidLogin => GetString("InvalidLogin");
     public static string RegistrationSuccess => GetString("RegistrationSuccess");
 
@@ -96,6 +93,11 @@ public static class Resources
     public static string SelectLanguageRegister => GetString("SelectLanguageRegister");
     public static string RegisterButtonModal => GetString("RegisterButtonModal");
     public static string RegisterTitleModal => GetString("RegisterTitleModal");
+
+    public static string PasswordChangedSuccessfully => GetString("PasswordChangedSuccessfully");
+    public static string PasswordChangeError => GetString("PasswordChangeError");
+
+    public static string UsernameCreateSuccesfully => GetString("UsernameCreateSuccesfully");
 
 
 

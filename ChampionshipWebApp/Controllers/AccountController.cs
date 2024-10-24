@@ -11,7 +11,6 @@ using System.Security.Claims;
 using System.Resources;
 using System.Text.Json;
 
-
 public class AccountController : Controller
 {
     private readonly FootballLeagueContext _context;
@@ -20,7 +19,6 @@ public class AccountController : Controller
     {
         _context = context;
     }
-
     public List<Language> GetLanguages()
     {
         return new List<Language>
@@ -30,7 +28,6 @@ public class AccountController : Controller
             new Language { Code = "fr", Name = "Français" }
         };
     }
-
     private void SetCultureCookie(string language)
     {
         Response.Cookies.Append(
@@ -38,7 +35,6 @@ public class AccountController : Controller
             CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(language))
         );
     }
-
     private IDictionary<string, ResxForLanguage[]> PopulateResxLanguages()
     {
         Dictionary<string, ResxForLanguage[]> resx = new();
@@ -48,6 +44,7 @@ public class AccountController : Controller
         foreach (var lang in languages)
         {
             var culture = CultureInfo.GetCultureInfo(lang.Code);
+
             ResxForLanguage[] resourcesArray = new ResxForLanguage[]
             {
             new ResxForLanguage { ElementName = "SelectLanguage", ElementValue = resManager.GetString("SelectLanguage", culture) },
@@ -70,7 +67,6 @@ public class AccountController : Controller
             new ResxForLanguage { ElementName = "InsertPasswordRegister", ElementValue = resManager.GetString("InsertPasswordRegister", culture) },
 
             };
-            // Aggiungiamo la lingua e l'array serializzato al dizionario
             resx.Add(lang.Code, resourcesArray);
         }
         return resx;
@@ -80,9 +76,11 @@ public class AccountController : Controller
     public async Task<IActionResult> Login(string? registrationSuccessMessage = null, string culture = "en")
     {
         ViewBag.RegistrationSuccessMessage = TempData["RegistrationSuccessMessage"] ?? registrationSuccessMessage;
+
         ViewData["Culture"] = culture;
         ViewData["Languages"] = GetLanguages();
         ViewBag.Languages = GetLanguages();
+
         var resxLanguages = PopulateResxLanguages();
         ViewBag.ResxLanguages = JsonSerializer.Serialize(resxLanguages);
 
@@ -90,7 +88,6 @@ public class AccountController : Controller
         {
             SetCultureCookie(culture);
         }
-
         return View();
     }
 
@@ -101,20 +98,19 @@ public class AccountController : Controller
         {
             var identity = (ClaimsIdentity)User.Identity;
             var claim = identity.FindFirst("Language");
-
             if (claim != null)
             {
                 identity.RemoveClaim(claim);
             }
-
             identity.AddClaim(new Claim("Language", language));
             await UpdateUserLanguageInDatabase(User.Identity.Name, language);
+
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
             SetCultureCookie(language);
         }
+
         return RedirectToAction("Index", "Home");
     }
-
     private async Task UpdateUserLanguageInDatabase(string username, string language)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
@@ -150,11 +146,11 @@ public class AccountController : Controller
 
         ViewData["Username"] = username;
         ViewData["Languages"] = GetLanguages();
-        ViewData["Culture"] = culture; 
+        ViewData["Culture"] = culture;
         ViewBag.ResxLanguages = JsonSerializer.Serialize(PopulateResxLanguages());
+
         return View();
     }
-
     private void SetUserCulture(string language, string username)
     {
         var cultureInfo = new CultureInfo(language);
@@ -222,10 +218,11 @@ public class AccountController : Controller
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
+
         TempData["RegistrationSuccessMessage"] = GetLocalizedSuccessMessage(model.Language, "Registration completed successfully!");
+
         return RedirectToAction("Login", new { culture = model.Language });
     }
-
     private string GetLocalizedSuccessMessage(string language, string defaultMessage)
     {
         return language switch
@@ -255,11 +252,12 @@ public class AccountController : Controller
         {
             user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
             await _context.SaveChangesAsync();
-            return Json(new { success = true, message = "Password changed successfully." });
         }
-        return Json(new { success = false, message = "Error during password change." });
+        return RedirectToAction("Login");
     }
-
 }
+
+
+
 
 

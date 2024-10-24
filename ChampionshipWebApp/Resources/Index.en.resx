@@ -267,6 +267,12 @@
   <data name="NotPlayed" xml:space="preserve">
     <value>Not Played</value>
   </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>Password Changed Successfully</value>
+  </data>
+  <data name="PasswordChangeError" xml:space="preserve">
+    <value>Password Change Error</value>
+  </data>
   <data name="PasswordLabel" xml:space="preserve">
     <value>Password</value>
   </data>
@@ -317,6 +323,9 @@
   </data>
   <data name="TeamExist" xml:space="preserve">
     <value>Team Exist</value>
+  </data>
+  <data name="UsernameCreateSuccesfully" xml:space="preserve">
+    <value>Registration completed successfully!</value>
   </data>
   <data name="UsernameInUse" xml:space="preserve">
     <value>Username In Use</value>

@@ -69,12 +69,8 @@
                                 </button>
                             }
                         </div>
-
                     </div>
                 </div>
-                @* <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button> *@
             </div>
         </nav>
     </header>
@@ -92,11 +88,11 @@
             <input type="hidden" name="culture" value="@currentCulture" />
             <div class="form-group">
                 <label id="UsernameLabel" asp-for="Username" class="form-label">@Resources.UsernameLabel</label>
-                <input id="InsertUsername" asp-for="Username" maxlength="30" class="form-control" value="@ViewData["Username"]" placeholder="@Resources.InsertUsername" />
+                <input id="InsertUsername" asp-for="Username" maxlength="30" class="form-control" required value="@ViewData["Username"]" placeholder="@Resources.InsertUsername" />
             </div>
             <div class="form-group">
                 <label id="PasswordLabel" asp-for="Password" class="form-label">@Resources.PasswordLabel</label>
-                <input id="InsertPassword" asp-for="Password" maxlength="30" type="password" class="form-control" required pattern="^(?! )[a-zA-Z0-9]+( [a-zA-Z0-9]+)*(?<! )$" placeholder="@Resources.InsertPassword" />
+                <input id="InsertPassword" asp-for="Password" maxlength="30" type="password" required class="form-control" placeholder="@Resources.InsertPassword" />
             </div>
 
             <div class="d-flex justify-content-between">
@@ -131,8 +127,9 @@
                         </div>
 
                         <div class="form-group">
+
                             <label id="PasswordLabelRegister" for="newPassword">@Resources.PasswordLabelRegister</label>
-                            <input id="InsertPasswordRegister" type="password" maxlength="30" name="Password" class="form-control" required pattern="^(?! )[a-zA-Z0-9]+( [a-zA-Z0-9]+)*(?<! )$"  placeholder="@Resources.InsertPasswordRegister">
+                            <input id="InsertPasswordRegister" type="password" maxlength="30" name="Password" class="form-control" required placeholder="@Resources.InsertPasswordRegister">
                         </div>
 
                         <div class="form-group">
@@ -144,6 +141,7 @@
                                 }
                             </select>
                         </div>
+
                         <button id="RegisterButtonModal" type="submit" class="btn btn-primary">@Resources.RegisterButtonModal</button>
                     </form>
 
@@ -155,6 +153,7 @@
                     {
                         <div class="text-danger mt-2" id="UsernameInUse">@ViewBag.UsernameInUseMessage</div>
                     }
+
                 </div>
             </div>
         </div>
@@ -164,9 +163,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-
-
-
 
         document.addEventListener("DOMContentLoaded", function () {
             var resxLanguages = JSON.parse('@Html.Raw(ViewBag.ResxLanguages)');
@@ -194,19 +190,20 @@
             // Inizializza la lingua corrente
             updateLanguage(userLanguage);
 
-            // Cambia la lingua al click del bottone
+            // Cambia la lingua al click del bottone lato client
             document.querySelectorAll('.change-language').forEach(function (button) {
                 button.addEventListener('click', function () {
                     var selectedLanguage = this.getAttribute('data-language');
-                    // Ricarica la pagina con la lingua selezionata
-                    window.location.href = '?culture=' + selectedLanguage; 
+                    // Aggiorna il testo con la lingua selezionata
+                    updateLanguage(selectedLanguage);
                 });
             });
         });
 
         $(document).ready(function () {
-            var showRegisterModal = '@(ViewBag.ShowRegisterModal != null && (bool)ViewBag.ShowRegisterModal)';
 
+
+            var showRegisterModal = '@(ViewBag.ShowRegisterModal != null && (bool)ViewBag.ShowRegisterModal)';
             if (showRegisterModal === 'True') {
                 $('#registerModal').modal('show');
             }
@@ -232,7 +229,17 @@
                 }
             });
         });
+        $(document).ready(function () {
+            var successMessage = $('#success-message');
+            if (successMessage.length) {
+                setTimeout(function () {
+                    successMessage.fadeOut('slow');
+                }, 3000);
+            }
+        });
     </script>
+
 </body>
 </html>
+
 
